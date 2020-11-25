@@ -1,0 +1,7 @@
+{
+  "name": "hamk",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
