@@ -9,13 +9,16 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "sync": "npx cap sync",
+    "sync-full": "ionic cap sync",
+    "ios": "ionic cap run ios -l --external"
   },
   "private": true,
   "dependencies": {
     "@angular/common": "~10.0.0",
     "@angular/core": "~10.0.0",
-    "@angular/fire": "^6.1.2",
+    "@angular/fire": "6.0.3",
     "@angular/forms": "~10.0.0",
     "@angular/platform-browser": "~10.0.0",
     "@angular/platform-browser-dynamic": "~10.0.0",
