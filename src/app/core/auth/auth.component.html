@@ -1,0 +1,8 @@
+<div class="login">
+  <div *ngIf="userService.uid | async as uid; else login">
+    The user is logged in with user id: {{ uid }}
+    <div *ngIf="userService.isAdmin | async">The user also has ADMIN superpowers.</div>
+    <div><button (click)="userService.logout()">Logout</button></div>
+  </div>
+  <ng-template #login> You need to login: <button (click)="userService.login()">Login</button> </ng-template>
+</div>

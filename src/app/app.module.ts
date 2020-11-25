@@ -32,8 +32,5 @@ export class AppModule {
     if (!firebase.apps.length) {
       firebase.initializeApp(environment.firebase);
     }
-    cfaSignIn('google.com').subscribe((user: firebase.User) => {
-      console.log(user.displayName);
-    });
   }
 }
