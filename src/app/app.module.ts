@@ -10,6 +10,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
+import { CoreModule } from './core/core.module';
+import { cfaSignIn } from 'capacitor-firebase-auth/dist/esm/facades';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +19,7 @@ import * as firebase from 'firebase';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    CoreModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
@@ -29,5 +32,8 @@ export class AppModule {
     if (!firebase.apps.length) {
       firebase.initializeApp(environment.firebase);
     }
+    cfaSignIn('google.com').subscribe((user: firebase.User) => {
+      console.log(user.displayName);
+    });
   }
 }

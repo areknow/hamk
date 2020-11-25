@@ -1,0 +1,61 @@
+<ion-content [fullscreen]="true">
+  <!-- Search bar -->
+  <div class="search">
+    <div class="search-bar">
+      <div class="icon" (click)="search.setFocus()">
+        <i class="material-icons">search</i>
+      </div>
+      <form (submit)="submit()">
+        <ion-input #search enterkeyhint="search" [(ngModel)]="searchValue" name="search"></ion-input>
+      </form>
+      <div class="icon" (click)="toggleTuneSheet()">
+        <i class="material-icons">{{ sheetOpen ? 'expand_less' : 'tune'}}</i>
+      </div>
+    </div>
+    <ng-container>
+      <div class="float-icons" [class.sheet-open]="sheetOpen">
+        <div (click)="centerMap()"><i class="material-icons">gps_fixed</i></div>
+        <div><i class="material-icons">near_me</i></div>
+        <div><i class="material-icons">layers</i></div>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="sheet-container" [class.sheet-open]="!sheetOpen">
+        <div class="sheet">
+          <app-button-group (buttonChange)="handleResultButtonGroup($event)">
+            Sort results by
+            <app-button-group-item *ngFor="let button of resultGroup" [active]="button.active" [value]="button.value">
+              {{button.label}}
+            </app-button-group-item>
+          </app-button-group>
+          <app-button-group (buttonChange)="handleAccessibilityButtonGroup($event)">
+            Accessibility
+            <app-button-group-item
+              *ngFor="let button of accessibilityGroup"
+              [active]="button.active"
+              [value]="button.value"
+            >
+              {{button.label}}
+            </app-button-group-item>
+          </app-button-group>
+        </div>
+        <div class="spots-button" (click)="sheetOpen = !sheetOpen">Show spots!</div>
+      </div>
+    </ng-container>
+  </div>
+
+  <ul class="map-cards-container">
+    <app-map-card
+      *ngFor="let card of fakeCards"
+      [image]="card.image"
+      [title]="card.title"
+      [subTitle]="card.subTitle"
+      [rating]="card.rating"
+      [geo]="card.geo"
+      [id]="card.id"
+    >
+    </app-map-card>
+  </ul>
+
+  <div id="map" #mapTarget></div>
+</ion-content>

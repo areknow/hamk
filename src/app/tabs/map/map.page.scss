@@ -1,0 +1,153 @@
+ion-content {
+  position: relative;
+}
+
+.search {
+  position: fixed;
+  z-index: 1;
+  left: 10px;
+  right: 10px;
+  top: 54px;
+  .search-bar {
+    border-radius: 20px;
+    height: 50px;
+    background: white;
+    display: flex;
+    .icon {
+      height: 50px;
+      width: 54px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        color: black;
+      }
+    }
+    form {
+      width: calc(100% - 54px * 2);
+      ion-input {
+        border: 0;
+        height: 50px;
+        color: black;
+        background: white;
+      }
+    }
+  }
+  .float-icons {
+    position: absolute;
+    display: flex;
+    margin-top: 10px;
+    div {
+      height: 40px;
+      width: 40px;
+      border-radius: 40px;
+      -webkit-backdrop-filter: blur(7px);
+      backdrop-filter: blur(7px);
+      background-color: rgba(255, 255, 255, 0.64);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+      i {
+        height: 24px;
+        width: 24px;
+        opacity: 0.5;
+      }
+      &:active i {
+        color: var(--hamk-primary-theme);
+        opacity: 1;
+      }
+    }
+    &.sheet-open {
+      display: none;
+    }
+  }
+  .sheet-container {
+    pointer-events: none;
+    .sheet {
+      pointer-events: all;
+      position: absolute;
+      -webkit-backdrop-filter: blur(7px);
+      backdrop-filter: blur(7px);
+      background-color: rgba(255, 255, 255, 0.64);
+      position: relative;
+      margin-top: -27px;
+      z-index: -1;
+      border-radius: 0 0 20px 20px;
+      padding: 47px 20px 20px 20px;
+      app-button-group {
+        margin-bottom: 30px;
+        display: block;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .spots-button {
+      pointer-events: all;
+      margin-top: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.22);
+      background-color: var(--hamk-primary-theme);
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      padding: 14px;
+      text-align: center;
+      &:active {
+        background-color: rgb(206, 0, 0);
+      }
+    }
+    &.sheet-open {
+      display: none;
+    }
+  }
+}
+
+#map {
+  height: 100%;
+}
+
+.map-cards-container {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  bottom: 0;
+  margin: 0;
+  padding: 20px 0;
+  display: grid;
+  grid-gap: calc(20px / 2);
+  grid-template-columns: 10px;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  list-style: none;
+  &:before,
+  &:after {
+    content: '';
+    width: 10px;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  app-map-card {
+    scroll-snap-align: center;
+    display: block;
+  }
+}
+
+:host ::ng-deep {
+  .gm-style a[href^="https://maps.google.com/maps"],
+  .gmnoprint {
+    display: none !important;
+  }
+}
+
+ion-content {
+  --overflow: hidden;
+}

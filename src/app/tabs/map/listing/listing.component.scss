@@ -1,0 +1,23 @@
+ion-content {
+  --ion-background-color: #111d12;
+}
+
+.actions {
+  margin-top: 44px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  div {
+    height: 40px;
+    width: 40px;
+    background: white;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.cupertino-pane {
+  padding: 20px;
+}

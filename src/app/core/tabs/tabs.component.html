@@ -1,0 +1,8 @@
+<div class="tabs">
+  <ng-container *ngFor="let tab of tabs">
+    <a *ngIf="tab.visible" [routerLink]="['tabs', tab.link]" routerLinkActive="active">
+      <i class="material-icons">{{ tab.icon }}</i>
+      <div>{{ tab.label }}</div>
+    </a>
+  </ng-container>
+</div>

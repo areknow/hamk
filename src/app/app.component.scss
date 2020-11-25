@@ -1,0 +1,7 @@
+ion-router-outlet {
+  bottom: var(--hamk-tab-bar-height);
+}
+
+.tab-bar-hidden {
+  bottom: 0;
+}
