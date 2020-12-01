@@ -31,6 +31,10 @@ export class FirestoreService {
     return this.docRef;
   }
 
+  async get(id: string) {
+    return (await this.db.collection(this.dbPath).doc(id).get().toPromise()).data();
+  }
+
   create(tutorial: any): any {
     return this.docRef.add({ ...tutorial });
   }

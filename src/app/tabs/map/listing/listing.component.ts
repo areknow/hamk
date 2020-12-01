@@ -1,92 +1,97 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CupertinoPane } from 'cupertino-pane';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CupertinoPane, CupertinoSettings } from 'cupertino-pane';
 import { TabsService } from 'src/app/core/tabs/tabs.service';
-
 import { ActionSheetController } from '@ionic/angular';
-// import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FirestoreService } from 'src/app/shared/services/firestore.service';
+import { Listing } from 'src/app/shared/models/listing';
+import { Plugins } from '@capacitor/core';
+import { CUPERTINO_PANEL_SETTINGS } from './cupertino-settings';
+const { Share } = Plugins;
 
 @Component({
   selector: 'app-listing',
   templateUrl: './listing.component.html',
   styleUrls: ['./listing.component.scss']
 })
-export class ListingComponent implements OnInit, OnDestroy {
-  public cupertinoPane: CupertinoPane;
+export class ListingComponent implements OnInit, OnDestroy, AfterViewInit {
+  paneElem: ElementRef;
+  @ViewChild('cupertinoPane', { static: false })
+  set pane(pane: ElementRef) {
+    this.paneElem = pane;
+  }
+
+  cupertinoPane: CupertinoPane;
+  cupertinoSettings = CUPERTINO_PANEL_SETTINGS;
 
   id: string;
+  listing: Listing = undefined;
 
   constructor(
     private tabsService: TabsService,
     public actionSheetController: ActionSheetController,
-    // private launchNavigator: LaunchNavigator,
-    private route: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
-    this.id = this.route.snapshot.params.id;
+    private route: ActivatedRoute,
+    private firestoreService: FirestoreService,
+    private router: Router
+  ) {
     this.tabsService.tabBarVisibility = false;
-    const settings = {
-      bottomClose: false,
-      buttonClose: false,
-      breaks: {
-        top: {
-          enabled: true,
-          height: window.screen.height - 80,
-          bounce: true
-        },
-        bottom: {
-          enabled: true,
-          height: 165,
-          bounce: true
-        },
-        middle: {
-          enabled: true,
-          height: window.screen.height - 270,
-          bounce: true
-        }
-      }
-    };
-    this.cupertinoPane = new CupertinoPane('.cupertino-pane', settings);
+    this.id = this.route.snapshot.params.id;
+  }
+
+  async ngOnInit() {
+    await this.getListing();
+  }
+
+  ngAfterViewInit() {
+    this.cupertinoPane = new CupertinoPane(this.paneElem.nativeElement, this.cupertinoSettings);
     this.cupertinoPane.present({ animate: true });
   }
 
+  async getListing() {
+    try {
+      this.listing = (await this.firestoreService.get(this.id)) as Listing;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async handleMoreButton() {
-    // const actionSheet = await this.actionSheetController.create({
-    //   buttons: [
-    //     {
-    //       text: 'Directions',
-    //       handler: () => {
-    //         this.launchNavigator.navigate([1, 2], { app: this.launchNavigator.APP.APPLE_MAPS });
-    //       }
-    //     },
-    //     {
-    //       text: 'Favorite',
-    //       handler: () => {}
-    //     },
-    //     {
-    //       text: 'Share',
-    //       handler: () => {
-    //         if (navigator.share) {
-    //           navigator
-    //             .share({
-    //               title: 'fake title',
-    //               text: 'Check out this sweet spot!',
-    //               url: 'https://hamk.io/spot/1231231'
-    //             })
-    //             .then(() => console.log('Successful share'))
-    //             .catch(error => console.log('Error sharing', error));
-    //         }
-    //       }
-    //     },
-    //     {
-    //       text: 'Cancel',
-    //       role: 'cancel',
-    //       handler: () => {}
-    //     }
-    //   ]
-    // });
-    // await actionSheet.present();
+    console.log(this.listing);
+    const actionSheet = await this.actionSheetController.create({
+      buttons: [
+        {
+          text: 'Directions',
+          handler: () => {
+            window.location.href = `maps:?q=${this.listing.geo.latitude}, ${this.listing.geo.longitude}`;
+          }
+        },
+        {
+          text: 'Favorite',
+          handler: () => {}
+        },
+        {
+          text: 'Share',
+          handler: async () => {
+            await Share.share({
+              title: this.listing.title,
+              text: 'Check out this sweet spot!',
+              url: 'https://hamk.life/listing/1231231'
+            });
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {}
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  back() {
+    this.cupertinoPane.destroy({ animate: true });
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy() {

@@ -6,7 +6,6 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { Plugins } from '@capacitor/core';
-import { map } from 'rxjs/operators';
 const { Keyboard, Geolocation } = Plugins;
 
 interface IButtonGroup {
