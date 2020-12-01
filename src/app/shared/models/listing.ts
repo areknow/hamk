@@ -1,7 +1,8 @@
 export interface Listing {
   id: string;
-  geo: { latitude: number; longitude: number };
+  position: { lat: number; lng: number };
   title: string;
   subTitle: string;
   rating: number;
+  thumbnail: string;
 }

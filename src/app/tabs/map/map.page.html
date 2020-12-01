@@ -51,11 +51,24 @@
       [title]="card.title"
       [subTitle]="card.subTitle"
       [rating]="card.rating"
-      [geo]="card.geo"
+      [position]="card.position"
       [id]="card.id"
     >
     </app-map-card>
   </ul>
 
-  <div id="map" #mapTarget></div>
+  <ng-container *ngIf="mapLoaded">
+    <google-map [options]="mapOptions" [center]="defaultPosition" height="100%">
+      <map-marker
+        #marker="mapMarker"
+        *ngFor="let listing of listings"
+        [position]="listing.position"
+        [title]="listing.title"
+        [clickable]="true"
+        (mapClick)="openInfo(marker, listing)"
+      >
+      </map-marker>
+      <map-info-window>{{ mapInfoContent }}</map-info-window>
+    </google-map>
+  </ng-container>
 </ion-content>

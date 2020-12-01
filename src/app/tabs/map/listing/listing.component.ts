@@ -62,7 +62,7 @@ export class ListingComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           text: 'Directions',
           handler: () => {
-            window.location.href = `maps:?q=${this.listing.geo.latitude}, ${this.listing.geo.longitude}`;
+            window.location.href = `maps:?q=${this.listing.position.lat}, ${this.listing.position.lng}`;
           }
         },
         {

@@ -107,9 +107,11 @@ ion-content {
   }
 }
 
-#map {
-  height: 100%;
-}
+// ::ng-deep {
+//   .map-container {
+//     height: 100% !important;
+//   }
+// }
 
 .map-cards-container {
   position: absolute;

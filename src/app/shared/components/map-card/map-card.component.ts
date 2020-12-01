@@ -13,7 +13,7 @@ export class MapCardComponent {
   @Input() title: string;
   @Input() subTitle: string;
   @Input() rating: number;
-  @Input() geo: { latitude: number; longitude: number };
+  @Input() position: { lat: number; lng: number };
   @Input() id: number;
 
   @Output() more = new EventEmitter<void>();
@@ -28,7 +28,7 @@ export class MapCardComponent {
         {
           text: 'Directions',
           handler: () => {
-            window.location.href = `maps:?q=${this.geo.latitude}, ${this.geo.longitude}`;
+            window.location.href = `maps:?q=${this.position.lat}, ${this.position.lng}`;
           }
         },
         {

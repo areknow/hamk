@@ -1,11 +1,11 @@
-/// <reference types="googlemaps" />
-
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Loader } from '@googlemaps/js-api-loader';
 import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { Plugins } from '@capacitor/core';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { Listing } from 'src/app/shared/models/listing';
 const { Keyboard, Geolocation } = Plugins;
 
 interface IButtonGroup {
@@ -20,7 +20,8 @@ interface IButtonGroup {
   styleUrls: ['map.page.scss']
 })
 export class MapPage {
-  @ViewChild('mapTarget', { static: false }) mapTarget: ElementRef;
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+  @ViewChild(MapInfoWindow, { static: false }) mapInfoWindow: MapInfoWindow;
 
   searchValue = '';
   sheetOpen = false;
@@ -33,16 +34,32 @@ export class MapPage {
     lng: -122.501133
   };
 
-  mapObject: google.maps.Map;
+  mapLoaded = false;
+  mapOptions: google.maps.MapOptions = {
+    center: this.defaultPosition,
+    zoom: 8,
+    disableDefaultUI: true
+  };
+  mapInfoContent: string;
 
-  get listings(): any {
+  get listings(): Listing[] {
     return this.fireStoreService.listings;
   }
 
   constructor(private fireStoreService: FirestoreService) {}
 
-  ionViewDidEnter() {
-    this.getLocation();
+  async ionViewDidEnter() {
+    await this.getLocation();
+    await this.loadMap();
+  }
+
+  async loadMap() {
+    const loader = new Loader({
+      apiKey: environment.mapsApiKey,
+      version: 'weekly'
+    });
+    await loader.load();
+    this.mapLoaded = true;
   }
 
   async getLocation() {
@@ -54,25 +71,9 @@ export class MapPage {
         lat: latitude,
         lng: longitude
       };
-      this.loadMap();
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async loadMap() {
-    const loader = new Loader({
-      apiKey: environment.mapsApiKey,
-      version: 'weekly'
-    });
-
-    await loader.load();
-
-    this.mapObject = new google.maps.Map(this.mapTarget.nativeElement, {
-      center: this.defaultPosition,
-      zoom: 8,
-      disableDefaultUI: true
-    });
   }
 
   submit() {
@@ -98,6 +99,11 @@ export class MapPage {
   }
 
   centerMap() {
-    this.mapObject.panTo(this.defaultPosition);
+    this.map.panTo(this.defaultPosition);
+  }
+
+  openInfo(marker: MapMarker, listing: Listing) {
+    this.mapInfoContent = listing.title;
+    this.mapInfoWindow.open(marker);
   }
 }
