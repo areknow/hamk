@@ -45,9 +45,7 @@ export class UserService {
   constructor(private auth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {}
 
   login(): void {
-    cfaSignIn('google.com').subscribe((user: firebase.User) => {
-      console.log(user.displayName);
-    });
+    cfaSignIn('google.com').subscribe((user: firebase.User) => {});
   }
 
   async logout(): Promise<void> {

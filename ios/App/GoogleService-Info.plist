@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>463813999142-26r816opj40m60p62n8g60ph2vc92jog.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.463813999142-26r816opj40m60p62n8g60ph2vc92jog</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD_RnNL4IvR-_dHIJ-0iE9Y5CaYfjEFXFk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>463813999142</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cr.areknow.hamk</string>
+	<key>PROJECT_ID</key>
+	<string>hamk-294619</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hamk-294619.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:463813999142:ios:6c83ea7b9574f7d42184e7</string>
+	<key>DATABASE_URL</key>
+	<string>https://hamk-294619.firebaseio.com</string>
+</dict>
+</plist>

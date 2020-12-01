@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Listing } from '../models/listing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
-  private dbPath = '/tutorials';
+  private dbPath = '/listings';
 
   docRef: AngularFirestoreCollection<any> = null;
 
+  private _listings: Listing[];
+
+  get listings(): any {
+    return this._listings;
+  }
+
   constructor(private db: AngularFirestore) {
     this.docRef = db.collection(this.dbPath);
+    this.getAll()
+      .snapshotChanges()
+      .pipe(map(changes => changes.map(c => ({ id: c.payload.doc.id, ...c.payload.doc.data() }))))
+      .subscribe(data => {
+        this._listings = data;
+      });
   }
 
   getAll(): AngularFirestoreCollection<any> {
-    console.log(1);
     return this.docRef;
   }
 

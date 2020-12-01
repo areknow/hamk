@@ -25,7 +25,6 @@ export class ListingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    console.log(this.id);
     this.tabsService.tabBarVisibility = false;
     const settings = {
       bottomClose: false,

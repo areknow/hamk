@@ -46,8 +46,8 @@
 
   <ul class="map-cards-container">
     <app-map-card
-      *ngFor="let card of fakeCards"
-      [image]="card.image"
+      *ngFor="let card of listings"
+      [image]="card.thumbnail"
       [title]="card.title"
       [subTitle]="card.subTitle"
       [rating]="card.rating"

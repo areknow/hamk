@@ -11,7 +11,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
 import { CoreModule } from './core/core.module';
-import { cfaSignIn } from 'capacitor-firebase-auth/dist/esm/facades';
 
 @NgModule({
   declarations: [AppComponent],

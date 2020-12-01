@@ -6,6 +6,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { Plugins } from '@capacitor/core';
+import { map } from 'rxjs/operators';
 const { Keyboard, Geolocation } = Plugins;
 
 interface IButtonGroup {
@@ -35,41 +36,9 @@ export class MapPage {
 
   mapObject: google.maps.Map;
 
-  fakeCards = [
-    {
-      id: 1,
-      image: 'https://picsum.photos/100/100',
-      title: 'Ludington State Park Beach',
-      subTitle: '8800 M-116, Ludington, MI 49431',
-      rating: 3,
-      geo: {
-        lat: 44.03585,
-        lng: -86.506272
-      }
-    },
-    {
-      id: 2,
-      image: 'https://picsum.photos/seed/100/100',
-      title: 'Ludington State Park Beach',
-      subTitle: '8800 M-116, Ludington, MI 49431',
-      rating: 1,
-      geo: {
-        lat: 44.03585,
-        lng: -86.506272
-      }
-    },
-    {
-      id: 3,
-      image: 'https://picsum.photos/seed/100/100',
-      title: 'Ludington State Park Beach',
-      subTitle: '8800 M-116, Ludington, MI 49431',
-      rating: 1,
-      geo: {
-        lat: 44.03585,
-        lng: -86.506272
-      }
-    }
-  ];
+  get listings(): any {
+    return this.fireStoreService.listings;
+  }
 
   constructor(private fireStoreService: FirestoreService) {}
 
@@ -112,7 +81,6 @@ export class MapPage {
   }
 
   toggleTuneSheet() {
-    console.log(this.fireStoreService.getAll());
     this.sheetOpen = !this.sheetOpen;
   }
 
