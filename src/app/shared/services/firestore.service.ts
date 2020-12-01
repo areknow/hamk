@@ -13,7 +13,7 @@ export class FirestoreService {
 
   private _listings: Listing[];
 
-  get listings(): any {
+  get listings(): Listing[] {
     return this._listings;
   }
 

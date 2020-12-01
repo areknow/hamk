@@ -6,7 +6,7 @@
         <i class="material-icons">search</i>
       </div>
       <form (submit)="submit()">
-        <ion-input #search enterkeyhint="search" [(ngModel)]="searchValue" name="search"></ion-input>
+        <ion-input #search enterkeyhint="search" [(ngModel)]="searchValue" name="search">{{activeIndex}}</ion-input>
       </form>
       <div class="icon" (click)="toggleTuneSheet()">
         <i class="material-icons">{{ sheetOpen ? 'expand_less' : 'tune'}}</i>

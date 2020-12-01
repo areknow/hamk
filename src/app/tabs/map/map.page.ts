@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Loader } from '@googlemaps/js-api-loader';
 import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
@@ -42,8 +42,17 @@ export class MapPage {
   };
   mapInfoContent: string;
 
+  activeIndex = 0;
+
+  tracked = false;
+
   get listings(): Listing[] {
-    return this.fireStoreService.listings;
+    const listings = this.fireStoreService.listings;
+    console.log(this.tracked);
+    if (listings && !this.tracked) {
+      this.trackScrollView();
+    }
+    return listings;
   }
 
   constructor(private fireStoreService: FirestoreService) {}
@@ -51,6 +60,32 @@ export class MapPage {
   async ionViewDidEnter() {
     await this.getLocation();
     await this.loadMap();
+  }
+
+  trackScrollView() {
+    console.log(1);
+    this.tracked = true;
+
+    const container = document.querySelector('.map-cards-container');
+    const elements = Array.from(document.querySelectorAll('.map-cards-container app-map-card'));
+
+    const handleIntersect = entries => {
+      const entry = entries.find(e => e.isIntersecting);
+      if (entry) {
+        const index = elements.findIndex(e => e === entry.target);
+        this.activeIndex = index;
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, {
+      root: container,
+      rootMargin: '0px',
+      threshold: 0.75
+    });
+
+    elements.forEach(el => {
+      observer.observe(el);
+    });
   }
 
   async loadMap() {
