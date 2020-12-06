@@ -165,4 +165,45 @@ ion-content {
 
 .cupertino-pane {
   padding: 20px;
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: -1.1px;
+  }
+  .sub-title {
+    font-size: 16px;
+    letter-spacing: -0.8px;
+    opacity: 0.4;
+    margin-top: 4px;
+  }
+  app-rating {
+    margin-top: 6px;
+  }
+  .description {
+    opacity: 0.6;
+    font-size: 12px;
+    letter-spacing: -0.6px;
+    margin-top: 20px;
+  }
+  .static-map-container {
+    margin-top: 20px;
+    position: relative;
+    .external-link {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      height: 40px;
+      width: 40px;
+      border-radius: 40px;
+      -webkit-backdrop-filter: blur(7px);
+      backdrop-filter: blur(7px);
+      background-color: rgba(255, 255, 255, 0.64);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      border-radius: 20px;
+    }
+  }
 }

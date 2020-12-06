@@ -4,8 +4,7 @@
     <div class="title">{{ title }}</div>
     <div class="subtitle">{{ subTitle }}</div>
     <div class="rating">
-      <span *ngFor="let icon of [].constructor(rating)">🌲</span>
-      <span *ngFor="let icon of [].constructor(5 - rating)" class="empty">🌲</span>
+      <app-rating [rating]="rating"></app-rating>
     </div>
   </div>
   <div class="more" (click)="handleMoreClick($event)">

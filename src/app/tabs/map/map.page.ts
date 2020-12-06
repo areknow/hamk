@@ -1,17 +1,17 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Loader } from '@googlemaps/js-api-loader';
-import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { Plugins } from '@capacitor/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Listing } from 'src/app/shared/models/listing';
 import { MapCardComponent } from 'src/app/shared/components/map-card/map-card.component';
-import { MapCardService } from './map-card.service';
 import { Router } from '@angular/router';
 import { CupertinoPane } from 'cupertino-pane';
-import { CUPERTINO_PANEL_SETTINGS } from './cupertino-settings';
 import { TabsService } from 'src/app/core/tabs/tabs.service';
+import { RESULT_GROUP, ACCESSIBILITY_GROUP } from './constants/button-groups';
+import { CUPERTINO_PANEL_SETTINGS } from './constants/cupertino-settings';
+import { SafeResourceUrl } from '@angular/platform-browser';
 const { Keyboard, Geolocation } = Plugins;
 
 interface IButtonGroup {
@@ -46,7 +46,7 @@ export class MapPage implements AfterViewInit {
   mapLoaded = false;
   mapOptions: google.maps.MapOptions = {
     center: this.defaultPosition,
-    zoom: 8,
+    zoom: 7,
     disableDefaultUI: true
   };
   mapInfoContent: string;
@@ -55,10 +55,24 @@ export class MapPage implements AfterViewInit {
   cupertinoSettings = CUPERTINO_PANEL_SETTINGS;
   showCupertinoBackdrop = false;
 
-  activeListing = undefined;
+  activeListing: Listing = undefined;
+
+  key = 'AIzaSyC3eh5p5cs5CWF5OPnu7VqZloSR6qfZbcQ';
 
   get listings(): Listing[] {
     return this.fireStoreService.listings;
+  }
+
+  get staticMapImageUrl(): string {
+    if (this.activeListing) {
+      return `https://maps.googleapis.com/maps/api/staticmap?key=${this.key}&center=${this.activeListing.position.lat},${this.activeListing.position.lng}&zoom=12&format=png&maptype=roadmap&size=480x360`;
+    }
+  }
+
+  get staticMapExternalLink(): string {
+    if (this.activeListing) {
+      return `https://www.google.com/maps?q=${this.activeListing.position.lat},${this.activeListing.position.lng}`;
+    }
   }
 
   constructor(private fireStoreService: FirestoreService, private router: Router, private tabService: TabsService) {
@@ -159,6 +173,10 @@ export class MapPage implements AfterViewInit {
     this.cupertinoPane.hide();
     this.showCupertinoBackdrop = false;
     this.tabService.tabBarVisibility = true;
+  }
+
+  handleStaticMapExternalLink() {
+    window.location.href = `maps:?q=${this.activeListing.position.lat}, ${this.activeListing.position.lng}`;
   }
 
   toggleButtonGroupStates(group: IButtonGroup[], event: number) {

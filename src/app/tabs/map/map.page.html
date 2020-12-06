@@ -79,8 +79,19 @@
   <!-- Cupertino panel -->
   <div #cupertinoPane class="cupertino-pane">
     <ng-container *ngIf="activeListing">
-      <h1>{{ activeListing.title }}</h1>
-      <span>{{ activeListing.subTitle}}</span>
+      <div class="title">{{ activeListing.title }}</div>
+      <div class="sub-title">{{ activeListing.subTitle}}</div>
+      <app-rating [rating]="activeListing.rating" [large]="true"></app-rating>
+      <div class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam.
+      </div>
+      <div class="static-map-container">
+        <div class="external-link" (click)="handleStaticMapExternalLink()">
+          <i class="material-icons">launch</i>
+        </div>
+        <img [src]="staticMapImageUrl" />
+      </div>
     </ng-container>
   </div>
   <div class="cupertino-backdrop" [class.show-cupertino-backdrop]="showCupertinoBackdrop">

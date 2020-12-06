@@ -1,0 +1,16 @@
+:host {
+  margin-top: 5px;
+  display: block;
+  span {
+    font-size: 9.6px;
+    letter-spacing: -0.48px;
+    &.empty {
+      filter: saturate(0);
+      opacity: 0.4;
+    }
+  }
+  .large span {
+    font-size: 24px;
+    letter-spacing: -1.2px;
+  }
+}

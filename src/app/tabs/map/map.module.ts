@@ -8,6 +8,7 @@ import { ButtonGroupModule } from '../../shared/components/button-group/button-g
 import { MapCardModule } from 'src/app/shared/components/map-card/map-card.module';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ListingGalleryComponent } from './listing-gallery/listing-gallery.component';
+import { RatingModule } from 'src/app/shared/components/rating/rating.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ListingGalleryComponent } from './listing-gallery/listing-gallery.compo
     MapPageRoutingModule,
     ButtonGroupModule,
     MapCardModule,
+    RatingModule,
     GoogleMapsModule
   ],
   declarations: [MapPage, ListingGalleryComponent]
