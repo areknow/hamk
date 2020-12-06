@@ -1,0 +1,10 @@
+<div class="actions">
+  <div (click)="back.emit()"><i class="material-icons">keyboard_backspace</i></div>
+  <div (click)="handleMore()"><i class="material-icons">more_vert</i></div>
+</div>
+
+<ng-container *ngIf="listing">
+  <div class="hero">
+    <img [src]="listing.thumbnail" />
+  </div>
+</ng-container>

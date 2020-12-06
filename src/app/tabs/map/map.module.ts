@@ -6,8 +6,8 @@ import { MapPage } from './map.page';
 import { MapPageRoutingModule } from './map-routing.module';
 import { ButtonGroupModule } from '../../shared/components/button-group/button-group.module';
 import { MapCardModule } from 'src/app/shared/components/map-card/map-card.module';
-import { ListingComponent } from './listing/listing.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ListingGalleryComponent } from './listing-gallery/listing-gallery.component';
 
 @NgModule({
   imports: [
@@ -19,6 +19,6 @@ import { GoogleMapsModule } from '@angular/google-maps';
     MapCardModule,
     GoogleMapsModule
   ],
-  declarations: [MapPage, ListingComponent]
+  declarations: [MapPage, ListingGalleryComponent]
 })
 export class MapPageModule {}

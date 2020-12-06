@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Loader } from '@googlemaps/js-api-loader';
 import { ACCESSIBILITY_GROUP, RESULT_GROUP } from './button-groups';
@@ -8,8 +8,7 @@ import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Listing } from 'src/app/shared/models/listing';
 import { MapCardComponent } from 'src/app/shared/components/map-card/map-card.component';
 import { MapCardService } from './map-card.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { CupertinoPane } from 'cupertino-pane';
 import { CUPERTINO_PANEL_SETTINGS } from './cupertino-settings';
 import { TabsService } from 'src/app/core/tabs/tabs.service';
@@ -52,24 +51,17 @@ export class MapPage implements AfterViewInit {
   };
   mapInfoContent: string;
 
-  cardCurrentlyInView: string;
-
   cupertinoPane: CupertinoPane;
   cupertinoSettings = CUPERTINO_PANEL_SETTINGS;
-
   showCupertinoBackdrop = false;
+
+  activeListing = undefined;
 
   get listings(): Listing[] {
     return this.fireStoreService.listings;
   }
 
-  constructor(
-    private fireStoreService: FirestoreService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private mapCardService: MapCardService,
-    private tabService: TabsService
-  ) {
+  constructor(private fireStoreService: FirestoreService, private router: Router, private tabService: TabsService) {
     this.fireStoreService.observer.subscribe(() => {
       this.trackScrollView();
     });
@@ -82,53 +74,16 @@ export class MapPage implements AfterViewInit {
 
   ngAfterViewInit() {
     this.cupertinoPane = new CupertinoPane(this.cupertinoPaneElement.nativeElement, this.cupertinoSettings);
-
-    // this.route.queryParams.subscribe(params => {
-    //   if (params) {
-    //     console.log(params.listing, this.mapCardService.currentMapCard);
-    //     if (params.listing !== this.mapCardService.currentMapCard) {
-    //       console.log(false);
-    //       // this.scrollMapCardIntoView(params.listing);
-    //     } else {
-    //       console.log(true);
-    //     }
-    //   }
-    // });
   }
 
-  trackScrollView() {
-    const options = {
-      root: this.mapCardsContainer.nativeElement,
-      rootMargin: '20px',
-      threshold: 1
-    };
-    const callback = (entries: IntersectionObserverEntry[]) => {
-      for (const entry of entries) {
-        if (entry.intersectionRatio === 1) {
-          this.mapCardService.currentMapCard = entry.target.id;
-          this.router.navigate([], {
-            queryParams: {
-              listing: entry.target.id
-            },
-            queryParamsHandling: 'merge'
-          });
-        }
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    for (const element of Array.from(this.mapCards)) {
-      observer.observe(element.nativeElement);
-    }
-  }
-
-  scrollMapCardIntoView(id) {
-    console.log(id);
-    console.log(document.getElementById(id));
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      element.scrollIntoView();
-    }, 1000);
-  }
+  // scrollMapCardIntoView(id) {
+  //   console.log(id);
+  //   console.log(document.getElementById(id));
+  //   setTimeout(() => {
+  //     const element = document.getElementById(id);
+  //     element.scrollIntoView();
+  //   }, 1000);
+  // }
 
   async loadMap() {
     const loader = new Loader({
@@ -153,6 +108,30 @@ export class MapPage implements AfterViewInit {
     }
   }
 
+  trackScrollView() {
+    const options = {
+      root: this.mapCardsContainer.nativeElement,
+      rootMargin: '20px',
+      threshold: 1
+    };
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      for (const entry of entries) {
+        if (entry.intersectionRatio === 1) {
+          this.router.navigate([], {
+            queryParams: {
+              listing: entry.target.id
+            },
+            queryParamsHandling: 'merge'
+          });
+        }
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    for (const element of Array.from(this.mapCards)) {
+      observer.observe(element.nativeElement);
+    }
+  }
+
   submit() {
     Keyboard.hide();
   }
@@ -169,7 +148,8 @@ export class MapPage implements AfterViewInit {
     this.toggleButtonGroupStates(this.accessibilityGroup, event);
   }
 
-  handleMapCardClick() {
+  handleMapCardClick(listing: Listing) {
+    this.activeListing = listing;
     this.tabService.tabBarVisibility = false;
     this.showCupertinoBackdrop = true;
     this.cupertinoPane.present({ animate: true });

@@ -25,7 +25,7 @@
           <app-button-group (buttonChange)="handleResultButtonGroup($event)">
             Sort results by
             <app-button-group-item *ngFor="let button of resultGroup" [active]="button.active" [value]="button.value">
-              {{button.label}}
+              {{ button.label }}
             </app-button-group-item>
           </app-button-group>
           <app-button-group (buttonChange)="handleAccessibilityButtonGroup($event)">
@@ -44,6 +44,7 @@
     </ng-container>
   </div>
 
+  <!-- Map card list -->
   <ul #mapCardsContainer class="map-cards-container">
     <app-map-card
       *ngFor="let card of listings"
@@ -54,11 +55,12 @@
       [position]="card.position"
       [id]="card.id"
       [attr.id]="card.id"
-      (click)="handleMapCardClick()"
+      (click)="handleMapCardClick(card)"
     >
     </app-map-card>
   </ul>
 
+  <!-- Google maps -->
   <ng-container *ngIf="mapLoaded">
     <google-map [options]="mapOptions" [center]="defaultPosition" height="100%">
       <map-marker
@@ -74,14 +76,14 @@
     </google-map>
   </ng-container>
 
-  <div class="cupertino-backdrop" [class.show-cupertino-backdrop]="showCupertinoBackdrop">
-    <div class="actions">
-      <div (click)="handleListingPanelBackClick()"><i class="material-icons">keyboard_backspace</i></div>
-      <div><i class="material-icons">more_vert</i></div>
-    </div>
-  </div>
+  <!-- Cupertino panel -->
   <div #cupertinoPane class="cupertino-pane">
-    <h1>Header</h1>
-    <div>Panel body</div>
+    <ng-container *ngIf="activeListing">
+      <h1>{{ activeListing.title }}</h1>
+      <span>{{ activeListing.subTitle}}</span>
+    </ng-container>
+  </div>
+  <div class="cupertino-backdrop" [class.show-cupertino-backdrop]="showCupertinoBackdrop">
+    <app-listing-gallery (back)="handleListingPanelBackClick()" [listing]="activeListing"></app-listing-gallery>
   </div>
 </ion-content>
