@@ -1,5 +1,18 @@
+:host ::ng-deep {
+  .gm-style a[href^="https://maps.google.com/maps"],
+  .gmnoprint {
+    display: none !important;
+  }
+}
+
+// concat the following selectors, check iphone
+
 ion-content {
   position: relative;
+}
+
+ion-content {
+  --overflow: hidden;
 }
 
 .search {
@@ -115,8 +128,7 @@ ion-content {
   margin: 0;
   padding: 20px 0;
   display: grid;
-  grid-gap: calc(20px / 2);
-  grid-template-columns: 10px;
+  grid-gap: 10px;
   grid-template-rows: auto;
   grid-auto-flow: column;
   grid-auto-columns: auto;
@@ -137,13 +149,36 @@ ion-content {
   }
 }
 
-:host ::ng-deep {
-  .gm-style a[href^="https://maps.google.com/maps"],
-  .gmnoprint {
-    display: none !important;
+.cupertino-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: black;
+  z-index: 2;
+  display: none;
+  .actions {
+    margin-top: 44px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    div {
+      height: 40px;
+      width: 40px;
+      background: white;
+      border-radius: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &.show-cupertino-backdrop {
+    display: block;
   }
 }
 
-ion-content {
-  --overflow: hidden;
+.cupertino-pane {
+  padding: 20px;
 }

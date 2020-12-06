@@ -6,7 +6,7 @@
         <i class="material-icons">search</i>
       </div>
       <form (submit)="submit()">
-        <ion-input #search enterkeyhint="search" [(ngModel)]="searchValue" name="search">{{activeIndex}}</ion-input>
+        <ion-input #search enterkeyhint="search" [(ngModel)]="searchValue" name="search"></ion-input>
       </form>
       <div class="icon" (click)="toggleTuneSheet()">
         <i class="material-icons">{{ sheetOpen ? 'expand_less' : 'tune'}}</i>
@@ -44,7 +44,7 @@
     </ng-container>
   </div>
 
-  <ul class="map-cards-container">
+  <ul #mapCardsContainer class="map-cards-container">
     <app-map-card
       *ngFor="let card of listings"
       [image]="card.thumbnail"
@@ -53,6 +53,8 @@
       [rating]="card.rating"
       [position]="card.position"
       [id]="card.id"
+      [attr.id]="card.id"
+      (click)="handleMapCardClick()"
     >
     </app-map-card>
   </ul>
@@ -71,4 +73,15 @@
       <map-info-window>{{ mapInfoContent }}</map-info-window>
     </google-map>
   </ng-container>
+
+  <div class="cupertino-backdrop" [class.show-cupertino-backdrop]="showCupertinoBackdrop">
+    <div class="actions">
+      <div (click)="handleListingPanelBackClick()"><i class="material-icons">keyboard_backspace</i></div>
+      <div><i class="material-icons">more_vert</i></div>
+    </div>
+  </div>
+  <div #cupertinoPane class="cupertino-pane">
+    <h1>Header</h1>
+    <div>Panel body</div>
+  </div>
 </ion-content>

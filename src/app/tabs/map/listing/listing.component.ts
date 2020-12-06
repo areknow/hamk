@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/shared/services/firestore.service';
 import { Listing } from 'src/app/shared/models/listing';
 import { Plugins } from '@capacitor/core';
-import { CUPERTINO_PANEL_SETTINGS } from './cupertino-settings';
+// import { CUPERTINO_PANEL_SETTINGS } from './cupertino-settings';
 const { Share } = Plugins;
 
 @Component({
@@ -22,7 +22,7 @@ export class ListingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   cupertinoPane: CupertinoPane;
-  cupertinoSettings = CUPERTINO_PANEL_SETTINGS;
+  // cupertinoSettings = CUPERTINO_PANEL_SETTINGS;
 
   id: string;
   listing: Listing = undefined;
@@ -43,7 +43,7 @@ export class ListingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.cupertinoPane = new CupertinoPane(this.paneElem.nativeElement, this.cupertinoSettings);
+    // this.cupertinoPane = new CupertinoPane(this.paneElem.nativeElement, this.cupertinoSettings);
     this.cupertinoPane.present({ animate: true });
   }
 

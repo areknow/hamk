@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Listing } from '../models/listing';
 
@@ -13,6 +14,8 @@ export class FirestoreService {
 
   private _listings: Listing[];
 
+  observer: Observable<DocumentChangeAction<any>[]>;
+
   get listings(): Listing[] {
     return this._listings;
   }
@@ -25,6 +28,7 @@ export class FirestoreService {
       .subscribe(data => {
         this._listings = data;
       });
+    this.observer = this.getAll().snapshotChanges();
   }
 
   getAll(): AngularFirestoreCollection<any> {
